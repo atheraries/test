@@ -1,0 +1,271 @@
+# Import PyQt5 module
+from PyQt5 import QtWidgets, QtCore
+
+# Define a class for the investment calculator window
+class InvestmentCalculator(QtWidgets.QWidget):
+    # Initialize the window
+    def __init__(self):
+        # Call the parent class constructor
+        super().__init__()
+
+        # Set the window title
+        self.setWindowTitle("Investment Calculator")
+
+        # Set the window size
+        self.resize(400, 300)
+
+        # Create a layout for the window
+        self.layout = QtWidgets.QVBoxLayout()
+
+        # Create a label for the initial investment
+        self.label_initial = QtWidgets.QLabel("Initial Investment:")
+        self.layout.addWidget(self.label_initial)
+
+        # Create an entry field for the initial investment
+        self.entry_initial = QtWidgets.QLineEdit()
+        self.layout.addWidget(self.entry_initial)
+
+        # Create a label for the return percentage
+        self.label_return = QtWidgets.QLabel("Return Percentage:")
+        self.layout.addWidget(self.label_return)
+
+        # Create a string variable to store the selected return frequency
+        self.selected_return_frequency = "Monthly"
+
+        # Create a list of options for the return frequency
+        self.options_return_frequency = ["Weekly", "Bi-Weekly", "Monthly", "Quarterly", "Yearly"]
+
+        # Create a layout for the entry field and the option menu for the return percentage
+        self.layout_return = QtWidgets.QHBoxLayout()
+
+        # Create an entry field for the return percentage
+        self.entry_return = QtWidgets.QLineEdit()
+        self.layout_return.addWidget(self.entry_return)
+
+        # Create an option menu for the return frequency
+        self.option_menu_return_frequency = QtWidgets.QComboBox()
+        self.option_menu_return_frequency.addItems(self.options_return_frequency)
+        self.option_menu_return_frequency.setCurrentText(self.selected_return_frequency)
+        self.option_menu_return_frequency.currentTextChanged.connect(self.change_return_frequency)
+        self.layout_return.addWidget(self.option_menu_return_frequency)
+
+        # Add the layout for the return percentage to the main layout
+        self.layout.addLayout(self.layout_return)
+
+        # Create a label for the cashout/drawings
+        self.label_cashout = QtWidgets.QLabel("Cashout/Drawings:")
+        self.layout.addWidget(self.label_cashout)
+
+        # Create a string variable to store the selected cashout frequency
+        self.selected_cashout_frequency = "Monthly"
+
+        # Create a list of options for the cashout frequency
+        self.options_cashout_frequency = ["Weekly", "Bi-Weekly", "Monthly", "Quarterly", "Yearly"]
+
+        # Create a layout for the entry field and the option menu for the cashout/drawings
+        self.layout_cashout = QtWidgets.QHBoxLayout()
+
+        # Create an entry field for the cashout/drawings
+        self.entry_cashout = QtWidgets.QLineEdit()
+        self.layout_cashout.addWidget(self.entry_cashout)
+
+        # Create an option menu for the cashout frequency
+        self.option_menu_cashout_frequency = QtWidgets.QComboBox()
+        self.option_menu_cashout_frequency.addItems(self.options_cashout_frequency)
+        self.option_menu_cashout_frequency.setCurrentText(self.selected_cashout_frequency)
+        self.option_menu_cashout_frequency.currentTextChanged.connect(self.change_cashout_frequency)
+        self.layout_cashout.addWidget(self.option_menu_cashout_frequency)
+
+        # Add the layout for the cashout/drawings to the main layout
+        self.layout.addLayout(self.layout_cashout)
+
+        # Create a label for the tax on return
+        self.label_tax = QtWidgets.QLabel("Tax on Return:")
+        self.layout.addWidget(self.label_tax)
+
+        # Create a string variable to store the selected tax frequency
+        self.selected_tax_frequency = "Monthly"
+
+        # Create a list of options for the tax frequency
+        self.options_tax_frequency = ["Weekly", "Bi-Weekly", "Monthly", "Quarterly", "Yearly"]
+
+        # Create a layout for the entry field and the option menu for the tax on return
+        self.layout_tax = QtWidgets.QHBoxLayout()
+
+        # Create an entry field for the tax on return
+        self.entry_tax = QtWidgets.QLineEdit()
+        self.layout_tax.addWidget(self.entry_tax)
+
+        # Create an option menu for the tax frequency
+        self.option_menu_tax_frequency = QtWidgets.QComboBox()
+        self.option_menu_tax_frequency.addItems(self.options_tax_frequency)
+        self.option_menu_tax_frequency.setCurrentText(self.selected_tax_frequency)
+        self.option_menu_tax_frequency.currentTextChanged.connect(self.change_tax_frequency)
+        self.layout_tax.addWidget(self.option_menu_tax_frequency)
+
+        # Add the layout for the tax on return to the main layout
+        self.layout.addLayout(self.layout_tax)
+
+        # Create a label for the reinvestment frequency
+        self.label_frequency = QtWidgets.QLabel("Reinvestment Frequency:")
+        self.layout.addWidget(self.label_frequency)
+
+        # Create a string variable to store the selected reinvestment frequency
+        self.selected_frequency = "Monthly"
+
+        # Create a list of options for the reinvestment frequency
+        self.options_frequency = ["Weekly", "Bi-Weekly", "Monthly", "Quarterly", "Yearly"]
+
+        # Create an option menu for the reinvestment frequency
+        self.option_menu_frequency = QtWidgets.QComboBox()
+        self.option_menu_frequency.addItems(self.options_frequency)
+        self.option_menu_frequency.setCurrentText(self.selected_frequency)
+        self.option_menu_frequency.currentTextChanged.connect(self.change_frequency)
+        self.layout.addWidget(self.option_menu_frequency)
+
+        # Create a label for the investment duration
+        self.label_duration = QtWidgets.QLabel("Investment Duration:")
+        self.layout.addWidget(self.label_duration)
+
+        # Create a layout for the entry fields for the years and months
+        self.layout_duration = QtWidgets.QHBoxLayout()
+
+        # Create an entry field for the years
+        self.entry_years = QtWidgets.QLineEdit()
+        self.layout_duration.addWidget(self.entry_years)
+
+        # Create a label for the years
+        self.label_years = QtWidgets.QLabel("Years")
+        self.layout_duration.addWidget(self.label_years)
+
+        # Create an entry field for the months
+        self.entry_months = QtWidgets.QLineEdit()
+        self.layout_duration.addWidget(self.entry_months)
+
+        # Create a label for the months
+        self.label_months = QtWidgets.QLabel("Months")
+        self.layout_duration.addWidget(self.label_months)
+
+        # Add the layout for the investment duration to the main layout
+        self.layout.addLayout(self.layout_duration)
+
+        # Create a button to calculate the final value
+        self.button_calculate = QtWidgets.QPushButton("Calculate")
+        self.button_calculate.clicked.connect(self.calculate)
+        self.layout.addWidget(self.button_calculate)
+
+        # Create a label to display the result
+        self.label_result = QtWidgets.QLabel("")
+        self.layout.addWidget(self.label_result)
+
+        # Set the layout for the window
+        self.setLayout(self.layout)
+
+        # Show the window
+        self.show()
+
+    # Define a function to change the selected return frequency
+    def change_return_frequency(self, text):
+        self.selected_return_frequency = text
+
+    # Define a function to change the selected cashout frequency
+    def change_cashout_frequency(self, text):
+        self.selected_cashout_frequency = text
+
+    # Define a function to change the selected tax frequency
+    def change_tax_frequency(self, text):
+        self.selected_tax_frequency = text
+
+    # Define a function to change the selected reinvestment frequency
+    def change_frequency(self, text):
+        self.selected_frequency = text
+
+    # Define a function to calculate the final value of the investment
+    def calculate(self):
+        # Get the values from the entry fields
+        initial = self.entry_initial.text()
+        return_rate = self.entry_return.text()
+        cashout = self.entry_cashout.text()
+        tax = self.entry_tax.text()
+        frequency = self.selected_frequency
+        years = self.entry_years.text()
+        months = self.entry_months.text()
+
+        # Remove any spaces from the values
+        initial = initial.replace(" ", "")
+        return_rate = return_rate.replace(" ", "")
+        cashout = cashout.replace(" ", "")
+        tax = tax.replace(" ", "")
+        frequency = frequency.lower()
+        years = years.replace(" ", "")
+        months = months.replace(" ", "")
+
+        # Convert the values to float or integer
+        try:
+            initial = float(initial) if initial else 0.0
+            return_rate = float(return_rate) if return_rate else 0.0
+            cashout = float(cashout) if cashout else 0.0
+            tax = float(tax) if tax else 0.0
+            frequency = frequency.lower()
+            years = int(years) if years else 0
+            months = int(months) if months else 0
+        except ValueError:
+            # Display an error message if the values are not valid
+            self.label_result.setText("Please enter valid numbers.")
+            return
+
+        # Check if the frequency is one of the valid options
+        if frequency not in ["weekly", "bi-weekly", "monthly", "quarterly", "yearly"]:
+            # Display an error message if the frequency is not valid
+            self.label_result.setText("Please enter a valid frequency.")
+            return
+
+        # Calculate the number of periods based on the frequency
+        if frequency == "weekly":
+            periods = 52
+        elif frequency == "bi-weekly":
+            periods = 26
+        elif frequency == "monthly":
+            periods = 12
+        elif frequency == "quarterly":
+            periods = 4
+        elif frequency == "yearly":
+            periods = 1
+
+        # Calculate the total number of periods based on the years and months
+        total_periods = periods * years + (periods * months) // 12
+
+        # Calculate the return rate per period
+        return_rate_per_period = (1 + return_rate / 100) ** (1 / periods) - 1
+
+        # Calculate the tax rate per period
+        tax_rate_per_period = tax / 100 / periods
+
+        # Initialize the current value of the investment
+        current_value = initial
+
+        # Loop over each period
+        for _ in range(total_periods):
+            # Calculate the return for this period
+            return_this_period = current_value * return_rate_per_period
+
+            # Calculate the tax for this period
+            tax_this_period = return_this_period * tax_rate_per_period
+
+            # Calculate the cashout for this period
+            cashout_this_period = cashout / periods
+
+            # Update the current value of the investment
+            current_value = current_value + return_this_period - tax_this_period - cashout_this_period
+
+        # Display the final value of the investment
+        self.label_result.setText(f"The final value of the investment is {current_value:.2f}.")
+
+# Create an instance of the QApplication
+app = QtWidgets.QApplication([])
+
+# Create an instance of the InvestmentCalculator
+calculator = InvestmentCalculator()
+
+# Start the event loop
+app.exec_()
